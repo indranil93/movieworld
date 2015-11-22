@@ -9,3 +9,4 @@ video games.
 
 Usage Instructions:
 goto http://movieworld.pythonanywhere.com/test1
+user can also create an account to give his own reviews and ratings to movies.
