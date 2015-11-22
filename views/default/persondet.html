@@ -1,0 +1,51 @@
+{{extend 'layout.html'}}
+{{if plen!=0))
+<h2>{{=person_mvies[0]['person']['pname']}}</h2>
+<table class="table">
+    <tr rowpsan="2">
+        <td>
+            <div>
+            <img width="200px"
+                 src="{{=URL('download', args=person_mvies[0]['person']['image'])}}" />
+            </div>
+        </td>
+        <td>
+            <div class="des" style="padding:2%">
+                <p><b>
+                    {{=person_mvies[0]['person']['description']}}</b>&nbsp<a href="https://en.wikipedia.org/wiki/{{=person_mvies[0]['person']['pname']}}">view full bio</a>
+                </p>
+            <p>
+                Born: {{=person_mvies[0]['person']['dob']}}
+            </p></div>
+        </td>
+    </tr>
+</table>
+
+</br>
+
+<h4>
+    <p>
+        Filmography:
+    </p>
+</h4>
+<table class="table">
+    {{for i in range(0,plen):}}
+    <tr>
+        <td>
+                <p>{{=person_mvies[i]['movie']['Title']}}
+                </p>
+        </td>
+        <td>
+            <p>
+                {{=person_mvies[i]['actors']['role']}}
+            </p>
+        </td>
+        <td>
+            <p>
+                {{=person_mvies[i]['movie']['TimeOfRelease']}}
+            </p>
+        </td>
+    </tr>
+        {{pass}}
+</table>
+{{pass}}

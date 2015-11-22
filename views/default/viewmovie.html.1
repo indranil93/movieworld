@@ -1,0 +1,101 @@
+{{extend 'layout.html'}}
+<head>
+    
+
+<style type="text/css">
+.tim{
+font-size: 18px;
+border: 2px solid #AD235E;
+border-radius: 100px;
+width: 150px;
+height: 150px; background-image: url(http://th07.deviantart.net/fs70/150/i/2013/012/c/6/rock_01_png___by_alzstock-d5r84up.png);
+}
+.image {
+   position: relative;
+   width: 40%; /* for IE 6 */
+   height: 40%;
+}
+.imageContainer {
+       width:200px;
+       height:200px;
+       background-image: url(/test1/static/images/star.png);
+}
+h2 {
+   position: absolute;
+   top: 20px;
+   left: 0;
+   width: 10%;
+}
+</style>
+</head>
+
+
+<body>
+<div class="container">
+<iframe width="560" height="420" src="{{=onemovie.Trailer}}" frameborder="0" allowfullscreen>Trailer</iframe>
+<h3>{{=onemovie.Title}}</h3>
+<table>
+    <tr>
+        <td rowspan="2">
+            <div><img width="200px" src="{{=URL('download', args=onemovie.image)}}" />
+            </div>
+        </td>
+        <td>
+            <div style="margin:2%">
+            <p>{{=onemovie.Description}}</p>
+            <b>Rating:    </b><button type="button" class="btn btn-info">{{=rating}}</button>
+            <p><a href="{{=URL('moviereviewlist',args=onemovie.id)}}">View Reviews</a></p>
+            <h3><span class="label label-pill label-success"><a href="{{=URL('create',vars={'name':onemovie.Title})}}">
+            Rate this Movie</a></span></h3>
+            {{for dirc in directors:}}
+            <p><b>Director:  </b><a href="{{=URL('persondet',vars={'name':dirc})}}">{{=dirc}}</a></p>
+            {{pass}}
+            <p><b>Writer:
+            {{for wrt in writers:}}
+            </b><a href="{{=URL('persondet',vars={'name':wrt})}}">{{=wrt}}</a>
+            {{pass}}</p>
+            <p><b>Actors:  </b>
+            {{for act in actrs:}}
+            <a href="{{=URL('persondet',vars={'name':act})}}">{{=act}}</a>
+            {{pass}}</p>
+
+            </div>
+        </td>
+    </tr>
+</table>
+</div>
+<div class="image">
+
+      <img src="/test1/static/images/star.png" alt="" />
+      <h6>A Movie in the Park:</h6>
+
+</div>
+    <div class="imageContainer"><h2>Some Text</h2></div>
+
+<table BORDER="0" cellpadding="0" CELLSPACING="0">
+<tr>
+
+<td WIDTH="80" HEIGHT="80" BACKGROUND="/test1/static/images/starsmall.png" VALIGN="center">
+
+<FONT SIZE="+1" COLOR="black" horizontal-align="center">Joe</FONT></TD>
+
+</TR>
+</TABLE>
+</br></br>
+<div id="mycarousel" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner">
+        <div class="item active">
+        <img src="/test1/static/images/star_small.jpg" alt="" class="img-responsive">
+           <div class="carousel-caption">
+           Insert your text here !
+           </div>
+        </div>
+    </div>
+</div>
+
+<button>
+    <span class='tim'></span>
+    <span class='text'>Click Me!</span>
+</button>
+
+</body>

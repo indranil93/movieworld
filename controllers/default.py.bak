@@ -1,0 +1,371 @@
+# -*- coding: utf-8 -*-
+# this file is released under public domain and you can use without limitations
+
+def index():
+    form=SQLFORM.factory(Field('SEARCH'),comment='Search Movies').process()
+    #return form.vars.name
+    if form.accepted:
+        x=form.vars.SEARCH
+        redirect(URL('search',vars={'name':x}))
+    #form1=FORM('Your Search:', INPUT(_name='Search'), INPUT(_type='submit'))
+    return locals()
+
+@auth.requires_login()
+def manage():
+    grid = SQLFORM.grid(db.review)
+    return locals()
+
+@auth.requires_login()
+def viewprofile():
+    row=db.auth_user(auth.user.id)
+    friendname=row.Friends.split(",")
+    movielist=row.Favourite_Movies.split(",")
+    movieinterestlist=row.Movie_Interests.split(",")
+    piclist=[]
+    picDict={}
+    i=0
+    rows=db(db.auth_user).select()
+    for row1 in rows:
+        n=row1.first_name+" "+row1.last_name
+        picDict[n]=row1.id
+    for nm in friendname:
+        for name in picDict.keys():
+            if nm == name:
+                s=db(db.auth_user.id==picDict[name]).select(db.auth_user.Picture,db.auth_user.id)
+                piclist.append(s)
+
+    return locals()
+
+
+
+def viewfriendprofile():
+    row=db.auth_user(request.args[0])
+    recvemail=row.email
+    friendname=row.Friends.split(",")
+    movielist=row.Favourite_Movies.split(",")
+    movieinterestlist=row.Movie_Interests.split(",")
+    n1=db.auth_user(auth.user.id)
+    fullname=n1.first_name+" "+n1.last_name
+    piclist=[]
+    for nm in friendname:
+        n=nm.split(" ")
+        s=db((db.auth_user.first_name==n[0])&(db.auth_user.last_name==n[1])).select(db.auth_user.Picture)
+        piclist.append(s)
+    return locals()
+
+def addfriend():
+
+    db.friend_request.insert(from_id=auth.user.id,to_id=request.args[0],status='No')
+    session.flash="Friend Request sent"
+    redirect(URL('#'))
+    #response.flash="Friend Request sent"
+    return locals()
+
+def viewmessages():
+    msgs1=db((db.friend_request.to_id==auth.user.id)&(db.friend_request.from_id==db.auth_user.id)&(db.friend_request.status=='No')).select(db.friend_request.from_id,db.auth_user.first_name,db.auth_user.last_name)
+    return locals()
+
+def acceptfriend():
+
+    db((db.friend_request.to_id == auth.user.id)&(db.friend_request.from_id == request.args[0])).update(status='Yes')
+    p1=db.auth_user(auth.user.id).Friends
+    #msgs1=db((db.friend_request.from_id == request.args[0])&(db.friend_request.to_id == auth.user.id)).select(db.friend_request.from_id,db.auth_user.first_name,db.auth_user.last_name)
+    #for msg in msgs1:
+        #p2=p1+","+msg.auth_user.first_name+" "+msg.auth_user.last_name
+        #print msg
+    p2=p1+","+request.vars.fl_name
+    db(db.auth_user.id==auth.user.id).update(Friends=p2)
+    p3=db.auth_user(request.args[0]).Friends
+    p4=p3+","+db.auth_user(auth.user.id).first_name+" "+db.auth_user(auth.user.id).last_name
+    db(db.auth_user.id==request.args[0]).update(Friends=p4)
+    session.flash="Friend Request Accepted"
+    redirect(URL('#'))
+    return locals()
+
+def viewotherprofile():
+    row=db.auth_user(request.args[0])
+    input_value=request.vars.input_value
+    full_name=request.vars.fl_name
+    friendname=row.Friends.split(",")
+    movielist=row.Favourite_Movies.split(",")
+    movieinterestlist=row.Movie_Interests.split(",")
+    n1=db.auth_user(auth.user.id)
+    fullname=n1.first_name+" "+n1.last_name
+    piclist=[]
+
+    for nm in friendname:
+        n=nm.split(" ")
+        s=db((db.auth_user.first_name==n[0])&(db.auth_user.last_name==n[1])).select(db.auth_user.Picture)
+        piclist.append(s)
+    return locals()
+
+
+def showpiclist():
+    namelist=request.vars.nmlist;
+    piclist=[]
+    for nm in namelist:
+        n=nm.split(" ")
+        s=db((db.auth_user.first_name==n[0])&(db.auth_user.last_name==n[1])).select(db.auth_user.Picture)
+        piclist.append(s)
+    #redirect(URL('viewprofile'))
+    return locals()
+
+
+def addmovie():
+    form = SQLFORM(db.movie).process()
+    return locals()
+
+def editreview():
+    db.review.created_by.readable = True
+    form = SQLFORM.grid(db.review,search_widget='',create=False,editable=False,fields=[db.review.body,db.review.title,db.review.rating,db.review.created_by],csv=False)
+    return locals()
+
+def addperson():
+    #form=SQLFORM.factory(Field('Person_Name'),Field('Date_of_Birth')).process()
+    form = SQLFORM(db.person).process()
+    return locals()
+
+def editmovie():
+    form = SQLFORM.grid(db.movie,search_widget='',create=False,csv=False,fields=[db.movie.Title,db.movie.Genre,db.movie.TimeOfRelease])
+    return locals()
+
+def editperson():
+    form = SQLFORM.grid(db.person,search_widget='',create=False,csv=False,fields=[db.person.pname,db.person.dob,db.person.gender,db.person.country])
+    return locals()
+
+
+def moviedet():
+    y=request.vars.name
+    rows=db(db.movie.Title==y).select()
+    for row in rows:
+        title=row.Title
+        des=row.Description
+        actors=row.Actors
+        direc=row.Director
+        writ=row.Writer
+    return locals()
+
+def search():
+    y=request.vars.name.lower()
+    z=request.vars.value
+    y1=y.upper()
+    persnlist=[]
+    if (z=="Select") | (z==""):
+        rowlist=db((db.movie.Title.like('%'+y+'%'))|(db.movie.Title.like('%'+y1+'%'))).select()
+        persnlist=db((db.person.pname.like('%'+y+'%'))|(db.person.pname.like('%'+y1+'%'))).select()
+        if len(rowlist) | len(persnlist)!=0:
+            pass;
+        else:
+            session.flash = T('No matching results found')
+            redirect(URL('index'))
+    elif z=="Movie":
+        rowlist=db((db.movie.Title.like('%'+y+'%'))|(db.movie.Title.like('%'+y1+'%'))).select()
+        if len(rowlist)==0:
+            session.flash = T('No matching films found')
+            redirect(URL('index'))
+    elif z=='Celebrities':
+        rowlist=db((db.person.pname.like('%'+y+'%'))|(db.person.pname.like('%'+y1+'%'))).select()
+        if len(rowlist)==0:
+            session.flash = T('No matching films found')
+            redirect(URL('index'))
+    elif z=='Genre':
+        rowlist=db((db.movie.Genre.like('%'+y+'%'))|(db.movie.Genre.like('%'+y1+'%'))).select()
+        if len(rowlist)==0:
+            session.flash = T('No matching films found')
+            redirect(URL('index'))
+
+    #if len(rowlist)==0:
+     #   session.flash = T('No matching films found')
+         #  redirect(URL('index'))
+    return locals()
+
+@auth.requires_login()
+def searchfriends():
+    y=request.vars.name.lower()
+    y1=y.upper()
+    userlist=db((db.auth_user.first_name.like('%'+y+'%'))|
+                (db.auth_user.first_name.like('%'+y1+'%'))|         (db.auth_user.last_name.like('%'+y+'%'))|
+                (db.auth_user.last_name.like('%'+y1+'%'))).select(db.auth_user.id,db.auth_user.first_name,db.auth_user.last_name)
+    row=db.auth_user(auth.user.id)
+    friendlist=row.Friends.split(",")
+    return locals()
+
+@auth.requires_login()
+def create():
+
+    m_name=request.vars.name
+    for row in db(db.movie.Title==m_name).select():
+        if row.Title==m_name:
+            m_id=row.id
+            break
+    db.review.title.default = m_name
+    db.review.title.writable = False
+    db.review.mv_id.default = m_id
+    db.review.mv_id.writable = False
+    db.review.mv_id.readable = False
+    form = SQLFORM(db.review).process()
+    if form.accepted:
+        redirect(URL('index'))
+    return locals()
+
+
+
+
+from gluon.tools import Mail
+mail = Mail()
+
+mail.settings.server = 'smtp.gmail.com:587'
+mail.settings.sender = 'movieworldiiit@gmail.com'
+mail.settings.login = 'movieworldiiit@gmail.com:movieworld123'
+
+
+def recommend():
+    recvemail=request.vars.email
+    form = SQLFORM.factory(
+    #Field('Name', requires=IS_NOT_EMPTY()),
+    #Field('ReceiverEmail', requires =[ IS_EMAIL(error_message='invalid email!'), IS_NOT_EMPTY() ]),
+    Field('Subject', requires=IS_NOT_EMPTY()),
+    Field('Message','text',requires=IS_NOT_EMPTY(),)
+    )
+    n1=db.auth_user(auth.user.id)
+    name=n1.first_name+" "+n1.last_name
+    if form.process().accepted:
+
+        x = mail.send(to=[recvemail],
+            subject=form.vars.Subject+" from "+name,
+            message= "Hello this is an email send from MovieWorld.com recommending a movie "+request.vars.name+" .\n "  +"\nMessage : "+form.vars.Message+ ".\n "
+        )
+
+        if x == True:
+            response.flash = 'email sent sucessfully.'
+        else:
+            response.flash = 'fail to send email sorry!'
+
+        #response.flash = 'form accepted.'
+    elif form.errors:
+        response.flash='form has errors.'
+
+    return dict(form=form)
+
+def rlist():
+    rows=db(db.review).select(orderby=db.review.created_on)
+    return locals()
+
+def moviereviewlist():
+    mid = request.args(0)
+    reviewrows=db(db.review.mv_id==mid).select(orderby=db.review.created_on)
+    return locals()
+
+def viewreview():
+    rev =  db.review(request.args(0,cast=int))
+    return locals()
+
+def movielist():
+    a=request.args(0)
+    if int(a)==1:
+        rows=db(db.movie).select()
+    elif int(a)==2:
+        rows=db(db.movie).select(orderby=~db.movie.TimeOfRelease)
+    elif int(a)==3:
+        rows=db(db.movie).select()
+    return locals()
+
+def viewmovie():
+    onemovie = db.movie(request.args(0,cast=int))
+    mid = request.args(0)
+    rows = db(db.review.mv_id==mid).select()
+    sum = 0.0
+    count = 0
+    for i in range(0,len(rows)):
+        sum = sum + float(rows[i]['rating'])
+        count = count + 1
+    if count > 0:
+        rating = round(sum / count,2)
+    else:
+        rating = 0
+    writers=onemovie.Writer.split(",")
+    directors=onemovie.Director.split(",")
+    actrs=onemovie.Actors.split(",")
+    return locals()
+
+def genrelist():
+    ar=request.args[0]
+    if int(request.args[0])==0:
+        grows=db(db.movie).select(db.movie.Genre,distinct=True)
+    else:
+        pass
+        #grows=db(db.movie.Genre==request.vars.gname).select()
+    return locals()
+
+def mviebyg():
+    mv_rat={}
+    g=request.vars.gname
+    genrows=db(db.movie.Genre==request.vars.gname).select(distinct=True)
+    for row in genrows:
+        sum=0
+        count=0
+        row1=db(db.review.mv_id==row.id).select()
+        for i in range(0,len(row1)):
+            sum = sum + float(row1[i]['rating'])
+            count = count + 1
+        if count > 0:
+            rating = round(sum / count,2)
+        else:
+            rating = 0
+        mv_rat[str(row.Title)]=rating
+    return locals()
+
+def persondet():
+    #x=request.vars.name
+    person_mvies=db((db.actors.p_id == db.person.id)&(db.actors.m_id==db.movie.id)&(db.person.pname==request.vars.name)).select()
+    plen=len(person_mvies)
+    print plen
+    if plen==0:
+        session.flash=T('Data Not available')
+        redirect(URL('persondet',vars={'name':request.vars.name}))
+    #x=db(db.person_mvies).select(db.person_mvies.person.pname)
+    #person_query=db((db.actors.p_id == db.person.id)&(db.actors.m_id==db.movie.id)&(db.person.pname==request.vars.name))
+    #person_mvies = SQLFORM.grid(person_query,fields=[db.person.id])
+    #p_name=db(db.person_mvies).select(db.person_mvies.person.pname,db.person_mvies.person.Description)
+    # for mrow in person_mvies:
+    #    mv_name=mrow.Title
+     #   mv_role=mrow.role
+    return locals()
+
+
+def user():
+    """
+    exposes:
+    http://..../[app]/default/user/login
+    http://..../[app]/default/user/logout
+    http://..../[app]/default/user/register
+    http://..../[app]/default/user/profile
+    http://..../[app]/default/user/retrieve_password
+    http://..../[app]/default/user/change_password
+    http://..../[app]/default/user/manage_users (requires membership in
+    http://..../[app]/default/user/bulk_register
+    use @auth.requires_login()
+        @auth.requires_membership('group name')
+        @auth.requires_permission('read','table name',record_id)
+    to decorate functions that need access control
+    """
+    return dict(form=auth())
+
+
+@cache.action()
+def download():
+    """
+    allows downloading of uploaded files
+    http://..../[app]/default/download/[filename]
+    """
+    return response.download(request, db)
+
+
+def call():
+    """
+    exposes services. for example:
+    http://..../[app]/default/call/jsonrpc
+    decorate with @services.jsonrpc the functions to expose
+    supports xml, json, xmlrpc, jsonrpc, amfrpc, rss, csv
+    """
+    return service()

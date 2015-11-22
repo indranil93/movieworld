@@ -1,0 +1,141 @@
+{{extend 'layout.html'}}
+<head>
+<style>
+.panel-heading h3 {
+white-space: nowrap;
+overflow: hidden;
+text-overflow: ellipsis;
+line-height: normal;
+width: 75%;
+padding-top: 8px;
+}
+#f{
+    float:right;
+}
+#jumbo {
+    /* IE8 and below */
+    background: rgb(200, 200, 200);
+    /* all other browsers */
+    background: rgba(200, 200, 200, 0.6);
+
+}
+#jumbo padding: 0.5em 0.6em;
+#jumbo h2{
+        font-size: 2em;
+        }
+#jumbo p{
+        font-size: 1.2em;
+
+}
+</style>
+</head>
+
+
+<body background="/test1/static/images/purple.jpg" style="background-attachment:fixed">
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5&appId=168175256672549";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<!--<div class="jumbotron vertical-center">-->
+<!--<div class="container">-->
+<!--<div class="neighborhood-guides">-->
+    <div class="jumbotron vertical-center" id="jumbo">
+    <div>
+<iframe width="100%" height="420" src="{{=onemovie.Trailer}}" frameborder="0" allowfullscreen>Trailer</iframe></div>
+
+
+<table>
+    <tr>
+        <td rowspan="2">
+            <div><img width="200px" src="{{=URL('download', args=onemovie.image)}}" />
+                 <div class="fb-like" data-href="{{=URL(args=onemovie.id, vars=request.vars, scheme=True, host=True)}}" data-width="200px" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>
+            </div>
+    </br>
+        </td>
+        <td>
+            <div style="margin:2%">
+            <h2>{{=onemovie.Title}}</h2>
+               <div>
+                   <h4><a href="{{=URL('mviebyg',args=1,vars={'gname':onemovie.Genre})}}">{{=onemovie.Genre}}</a></h4>
+             </div>
+            </br>
+            <p>{{=onemovie.Description}}</p>
+            <b>Rating:    </b>
+            <button type="button" class="btn-default">{{=rating}}</button>
+    </br>
+            <h3><span class="label label-pill label-success"><a href="{{=URL('create',vars={'name':onemovie.Title})}}">
+            Rate this Movie</a></span></h3>
+            {{for dirc in directors:}}
+            <p><b>Director:  </b><a href="{{=URL('persondet',vars={'name':dirc})}}">{{=dirc}}</a></p>
+            {{pass}}
+            <p><b>Writer:
+            {{for wrt in writers:}}
+            </b><a href="{{=URL('persondet',vars={'name':wrt})}}">{{=wrt}}</a>
+            {{pass}}</p>
+            <p><b>Actors:  </b>
+            {{for act in actrs:}}
+            <a href="{{=URL('persondet',vars={'name':act})}}">{{=act}}</a>
+            {{pass}}</p>
+
+            </div>
+        </td>
+    </tr>
+</table>
+<p><a href="{{=URL('recommend',vars={'name':onemovie.Title})}}">Recommend to a friend</a></p>
+
+    <h4>
+        Most Helpful Reviews:</br>
+    </h4>
+<table class="table">
+    {{rrows= db(db.review.mv_id==mid).select(orderby=~db.review.rating)}}
+    {{if len(rrows) < 2:}}
+                          {{l=len(rrows)}}
+    {{else:}}
+                          {{l=2}}
+    {{pass}}
+    {{for i in range(0,l):}}
+    <tr>
+        <td><h4><a href="{{=URL('viewreview',args=rrows[i]['id'])}}">{{=rrows[i]['title']}}</a></h4></td>
+            <td>{{=rrows[i]['rating']}}</td>
+        <td>{{=rrows[i]['created_on']}}</td>
+    </tr>
+    <tr>
+        <td>{{=rrows[i]['body']}}</td>
+    </tr>
+    {{pass}}
+</table>
+ <p><a href="{{=URL('moviereviewlist',args=onemovie.id)}}">View all Reviews</a></p>
+
+<!--
+<div class="image">
+
+      <img src="/test1/static/images/star.png" alt="" />
+      <h6>A Movie in the Park:</h6>
+
+</div>
+    <div class="imageContainer"><h2>Some Text</h2></div>
+-->
+<!--<button type="button" class="btn btn-info">{{=rating}}</button><-->
+<!--<div id="mycarousel" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner">
+        <div class="item active">
+        <img src="/test1/static/images/star_small.jpg" alt="" class="img-responsive">
+           <div class="carousel-caption">
+           Insert your text here !
+           </div>
+        </div>
+    </div>
+</div>-->
+
+<!--<button>
+    <span class='tim'></span>
+    <span class='text'>Click Me!</span>
+</button>-->
+</div>
+
+</body>

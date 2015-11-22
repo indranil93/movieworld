@@ -1,0 +1,76 @@
+{{extend 'layout.html'}}
+{{if (z=="Select") | (z==""):}}
+<div class="panel panel-primary">
+    <div class="panel-heading">Movies
+    </div>
+        <ul class="list-group">
+            <div class="panel-body">
+            {{for row in rowlist:}}
+                <li class="list-group-item">
+                    <a href="{{=URL('viewmovie',args=row.id)}}">{{=row.Title}}</a>
+                    </li>
+            {{pass}}
+            </div>
+    </ul>
+    </div>
+{{pass}}
+{{if len(persnlist)!=0:}}
+<div class="panel panel-primary">
+    <div class="panel-heading">People
+    </div>
+    <ul class="list-group">
+    <div class="panel-body">
+            {{for row in persnlist:}}
+                <li class="list-group-item">
+                  <a href="{{=URL('persondet',vars={'name':row.pname})}}">{{=row.pname}}</a></li>
+            {{pass}}
+        </div>
+    </ul>
+</div>
+{{pass}}
+{{pass}}
+{{if z=="Movie":}}
+    <div class="panel panel-primary">
+    <div class="panel-heading">Movies
+    </div>
+        <ul class="list-group">
+            <div class="panel-body">
+            {{for row in rowlist:}}
+                <li class="list-group-item">
+                    <a href="{{=URL('viewmovie',args=row.id)}}">{{=row.Title}}</a>
+                    </li>
+            {{pass}}
+            </div>
+    </ul>
+    </div>
+{{pass}}
+{{if z=='Celebrities':}}
+     <div class="panel panel-primary">
+    <div class="panel-heading">Movies
+    </div>
+        <ul class="list-group">
+            <div class="panel-body">
+            {{for row in rowlist:}}
+                <li class="list-group-item">
+                    <a href="{{=URL('persondet',vars={'name':row.pname})}}">{{=row.pname}}</a>
+                    </li>
+            {{pass}}
+            </div>
+    </ul>
+    </div>
+{{pass}}
+{{if z=='Genre':}}
+     <div class="panel panel-primary">
+    <div class="panel-heading">Movies
+    </div>
+        <ul class="list-group">
+            <div class="panel-body">
+            {{for row in rowlist:}}
+                <li class="list-group-item">
+                    <a href="{{=URL('mviebyg',args=1,vars={'gname':row.Genre})}}">{{=row.Genre}}</a>
+                    </li>
+            {{pass}}
+            </div>
+    </ul>
+    </div>
+{{pass}}

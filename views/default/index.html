@@ -1,0 +1,333 @@
+{{extend 'layout.html'}}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>MovieHunter</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="{{=URL('static','css/style.css')}}" type="text/css" media="all" />
+<script type="text/javascript" src="{{=URL('static','js/jquery-1.4.2.min.js')}}"></script>
+<script type="text/javascript" src="{{=URL('static','js/jquery-func.js')}}"></script>
+<!--[if IE 6]><link rel="stylesheet" href="{{=URL('static','css/ie6.css')}}" type="text/css" media="all" /><![endif]-->
+
+<link href='http://fonts.googleapis.com/css?family=Josefin Slab' rel='stylesheet'  type='text/css'>
+<style>
+#ls {
+color:black;
+font-size: 16px;
+
+position: relative;
+display: inline-block;
+vertical-align: middle;
+}
+.styled {
+  margin: 50px;
+  width: 120px;
+  height: 34px;
+  border: 1px solid #111;
+  border-radius: 3px;
+  overflow: hidden;
+    background: #009299;
+}
+.styled select {
+  background: transparent;
+  width: 150px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  height: 34px;
+}
+body {
+    padding-top: 50px;
+    <!--font-family: 'Josefin Slab', sans-serif;-->
+}
+select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    text-indent: 1px;
+    text-overflow: '';
+}
+</style>
+
+</head>
+<body>
+<!-- START PAGE SOURCE -->
+<div id="shell" class="container" style="background:rgba(002, 002, 002, 0.8)">
+  <div id="header">
+    <!--<h1 id="logo"><a href="#">MovieHunter</a></h1>-->
+    <div class="social"> <span>FOLLOW US ON:</span>
+      <ul>
+        <li><a class="twitter" href="#">twitter</a></li>
+        <li><a class="facebook" href="#">facebook</a></li>
+        <li><a class="vimeo" href="#">vimeo</a></li>
+        <li><a class="rss" href="#">rss</a></li>
+      </ul>
+    </div>
+    <!--<div id="navigation">
+      <ul>
+        <li><a class="active" href="#">HOME</a></li>
+        <li><a href="#">NEWS</a></li>
+        <li><a href="#">IN THEATERS</a></li>
+        <li><a href="#">COMING SOON</a></li>
+        <li><a href="#">CONTACT</a></li>
+        <li><a href="#">ADVERTISE</a></li>
+      </ul>
+    </div>-->
+
+
+<nav class="navbar navbar-s" role="navigation">
+  <div class="container-fluid">
+
+    <div>
+      <ul class="nav navbar-nav">
+        <li><img src="/test1/static/images/movieworld-logo.jpg" height="65" width="80"></li>  
+        <li class="active"><a href="{{=URL('index')}}"><h4><b>Home</b></h4></a></li>
+          <li><a href="{{=URL('movielist',args=1)}}"><h4><b>Show All</b></h4></a></li>
+          <li><a href="{{=URL('movielist',args=2)}}"><h4><b>Latest Trailers</b></h4></a></li>
+          <li><a href="{{=URL('movielist',args=3)}}"><h4><b>Top Rated</b></h4></a></li>
+          <!--<li><a href="#"><h4><b>Most Commented</b></h4></a></li>-->
+          <li> <a href="{{=URL('genrelist',args=0)}}"><h4><b>View Genres</b></h4></a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+</div>
+    <div class="container">
+            <form method="get" action="search">
+            <div class="col-sm-6"><input type="text" name="name" class="form-control string" placeholder="Search for Movies and Celebrities"></input></div>
+
+
+
+<select name="value" class="btn btn-success">
+  <option value="Select">Select</option>
+  <option value="Movie">Movie</option>
+  <option value="Celebrities">Celebrities</option>
+  <option value="Genre">Genre</option>
+</select>
+
+<input type="submit" value="Search" class="btn btn-primary"></input>
+</div>
+
+</form>
+</br></br></br></br></br>
+
+          <!--<label for="search-field">SEARCH</label>-->
+          <!--<input type="text" name="search field" value="Enter search here" id="search-field" class="blink search-field"  />
+          <input type="submit" value="GO!" class="search-button" />-->
+      </div>
+    </div>
+  </div>
+  <div id="main">
+    <div id="content">
+      <div class="box">
+        <div class="head">
+
+          <h2>LATEST TRAILERS</h2>
+        </div>
+        <div class="movie">
+          <div class="movie-image"> <span class="play"><span class="name">X-MAN</span></span> <a href="{{=URL('viewmovie',args=6,vars={'name':'The 33','value':''})}}"><img src="/test1/static/images/the33.jpeg" alt="" /></a> </div>
+          <div class="rating">
+            <p>RATING</p>
+            <div class="stars">
+              <div class="stars-in"> </div>
+            </div>
+            <span class="comments">12</span> </div>
+        </div>
+        <div class="movie">
+          <div class="movie-image"> <span class="play"><span class="name">SPIDER MAN 2</span></span> <a href="{{=URL('viewmovie',args=7)}}"><img src="/test1/static/images/Prem-Ratan-Dhan-Payo-2015-Full-movie-review.jpg" alt="" /></a> </div>
+          <div class="rating">
+            <p>RATING</p>
+            <div class="stars">
+              <div class="stars-in"> </div>
+            </div>
+            <span class="comments">12</span> </div>
+        </div>
+        <div class="movie">
+          <div class="movie-image"> <span class="play"><span class="name">SPIDER MAN 3</span></span> <a href="{{=URL('viewmovie',args=10,vars={'name':'Spectre','value':''})}}"><img src="/test1/static/images/images1.jpeg" alt="" /></a> </div>
+          <div class="rating">
+            <p>RATING</p>
+            <div class="stars">
+              <div class="stars-in"> </div>
+            </div>
+            <span class="comments">12</span> </div>
+        </div>
+        <div class="movie">
+          <div class="movie-image"> <span class="play"><span class="name">VALKYRIE</span></span> <a href="{{=URL('viewmovie',vars={'name':'The Martian','value':''},args=12)}}"><img src="/test1/static/images/imagesmart.jpeg" alt="" /></a> </div>
+          <div class="rating">
+            <p>RATING</p>
+            <div class="stars">
+              <div class="stars-in"> </div>
+            </div>
+            <span class="comments">12</span> </div>
+        </div>
+        <div class="movie last">
+          <div class="movie-image"> <span class="play"><span class="name">GLADIATOR</span></span> <a href="{{=URL('viewmovie',vars={'name':'Mad Max','value':''},args=11)}}"><img src="/test1/static/images/imagesmm.jpeg" alt="" /></a> </div>
+          <div class="rating">
+            <p>RATING</p>
+            <div class="stars">
+              <div class="stars-in"> </div>
+            </div>
+            <span class="comments">12</span> </div>
+        </div>
+        <div class="cl">&nbsp;</div>
+      </div>
+      <div class="box">
+        <div class="head">
+          <h2>TOP RATED</h2>
+        </div>
+        <div class="movie">
+          <div class="movie-image"> <span class="play"><span class="name">TRANSFORMERS</span></span> <a href="{{=URL('viewmovie',vars={'name':'The Shawshank','value':''},args=9)}}"><img src="/test1/static/images/imagesSr.jpeg" alt="" /></a> </div>
+          <div class="rating">
+            <p>RATING</p>
+            <div class="stars">
+              <div class="stars-in"> </div>
+            </div>
+            <span class="comments">12</span> </div>
+        </div>
+        <div class="movie">
+          <div class="movie-image"> <span class="play"><span class="name">MAGNETO</span></span> <a href="{{=URL('viewmovie',vars={'name':'Gladiator','value':''},args=5)}}"><img src="/test1/static/images/A70-11370.jpeg" alt="" /></a> </div>
+          <div class="rating">
+            <p>RATING</p>
+            <div class="stars">
+              <div class="stars-in"> </div>
+            </div>
+            <span class="comments">12</span> </div>
+        </div>
+        <div class="movie">
+          <div class="movie-image"> <span class="play"><span class="name">KUNG FU PANDA</span></span> <a href="{{=URL('viewmovie',args=13,vars={'name':'Kung Fu','value':''})}}"><img src="/test1/static/images/movie9.png" alt="" /></a> </div>
+          <div class="rating">
+            <p>RATING</p>
+            <div class="stars">
+              <div class="stars-in"> </div>
+            </div>
+            <span class="comments">12</span> </div>
+        </div>
+        <div class="movie">
+          <div class="movie-image"> <span class="play"><span class="name">EAGLE EYE</span></span> <a href="{{=URL('viewmovie',args=1,vars={'name':'X-Men: The Last Stand','value':''})}}"><img src="/test1/static/images/movie1.png" alt="" /></a> </div>
+          <div class="rating">
+            <p>RATING</p>
+            <div class="stars">
+              <div class="stars-in"> </div>
+            </div>
+            <span class="comments">12</span> </div>
+        </div>
+        <div class="movie">
+          <div class="movie-image"> <span class="play"><span class="name">NARNIA</span></span> <a href="{{=URL('viewmovie',args=4,vars={'name':'Valkyrie','value':''})}}"><img src="/test1/static/images/movie4.png" alt="" /></a> </div>
+          <div class="rating">
+            <p>RATING</p>
+            <div class="stars">
+              <div class="stars-in"> </div>
+            </div>
+            <span class="comments">12</span> </div>
+        </div>
+        <div class="movie last">
+          <div class="movie-image"> <span class="play"><span class="name">ANGELS &amp; DEMONS</span></span> <a href="{{=URL('viewmovie',args=3,vars={'name':'Spider Man 3','value':''})}}"><img src="/test1/static/images/movie3.png" alt="" /></a> </div>
+          <div class="rating">
+            <p>RATING</p>
+            <div class="stars">
+              <div class="stars-in"> </div>
+            </div>
+            <span class="comments">12</span> </div>
+        </div>
+        <div class="cl">&nbsp;</div>
+      </div>
+      <div class="box">
+        <div class="head">
+          <h2>MOST COMMENTED</h2>
+        </div>
+        <div class="movie">
+          <div class="movie-image"> <span class="play"><span class="name">HOUSE</span></span> <a href="#"><img src="/test1/static/images/movie13.png" alt="" /></a> </div>
+          <div class="rating">
+            <p>RATING</p>
+            <div class="stars">
+              <div class="stars-in"> </div>
+            </div>
+            <span class="comments">12</span> </div>
+        </div>
+        <div class="movie">
+          <div class="movie-image"> <span class="play"><span class="name">VACANCY</span></span> <a href="#"><img src="/test1/static/images/movie14.png" alt="" /></a> </div>
+          <div class="rating">
+            <p>RATING</p>
+            <div class="stars">
+              <div class="stars-in"> </div>
+            </div>
+            <span class="comments">12</span> </div>
+        </div>
+        <div class="movie">
+          <div class="movie-image"> <span class="play"><span class="name">MIRRORS</span></span> <a href="#"><img src="/test1/static/images/movie15.png" alt="" /></a> </div>
+          <div class="rating">
+            <p>RATING</p>
+            <div class="stars">
+              <div class="stars-in"> </div>
+            </div>
+            <span class="comments">12</span> </div>
+        </div>
+        <div class="movie">
+          <div class="movie-image"> <span class="play"><span class="name">THE KINGDOM</span></span> <a href="#"><img src="/test1/static/images/movie16.png" alt="" /></a> </div>
+          <div class="rating">
+            <p>RATING</p>
+            <div class="stars">
+              <div class="stars-in"> </div>
+            </div>
+            <span class="comments">12</span> </div>
+        </div>
+        <div class="movie last">
+          <div class="movie-image"> <span class="play"><span class="name">THE PRESTIGE</span></span> <a href="#"><img src="/test1/static/images/movie18.png" alt="" /></a> </div>
+          <div class="rating">
+            <p>RATING</p>
+            <div class="stars">
+              <div class="stars-in"> </div>
+            </div>
+            <span class="comments">12</span> </div>
+        </div>
+        <div class="cl">&nbsp;</div>
+      </div>
+    </div>
+    <div id="news">
+      <div class="head">
+        <h3>NEWS</h3>
+        <p class="text-right"><a href="#">See all</a></p>
+      </div>
+      <div class="content">
+        <p class="date">12.04.09</p>
+        <h4>Disney's A Christmas Carol</h4>
+        <p>&quot;Disney's A Christmas Carol,&quot; a multi-sensory thrill ride re-envisioned by Academy Award&reg;-winning filmmaker Robert Zemeckis, captures... </p>
+        <a href="#">Read more</a> </div>
+      <div class="content">
+        <p class="date">11.04.09</p>
+        <h4>Where the Wild Things Are</h4>
+        <p>Innovative director Spike Jonze collaborates with celebrated author Maurice Sendak to bring one of the most beloved books of all time to the big screen in &quot;Where the Wild Things Are,&quot;...</p>
+        <a href="#">Read more</a> </div>
+      <div class="content">
+        <p class="date">10.04.09</p>
+        <h4>The Box</h4>
+        <p>Norma and Arthur Lewis are a suburban couple with a young child who receive an anonymous gift bearing fatal and irrevocable consequences.</p>
+        <a href="#">Read more</a> </div>
+    </div>
+    <div id="coming">
+      <div class="head">
+        <h3>COMING SOON<strong>!</strong></h3>
+        <p class="text-right"><a href="#">See all</a></p>
+      </div>
+      <div class="content">
+        <h4>The Princess and the Frog </h4>
+        <a href="#"><img src="css/images/coming-soon1.jpg" alt="" /></a>
+        <p>Walt Disney Animation Studios presents the musical &quot;The Princess and the Frog,&quot; an animated comedy set in the great city of New Orleans...</p>
+        <a href="#">Read more</a> </div>
+      <div class="cl">&nbsp;</div>
+      <div class="content">
+        <h4>The Princess and the Frog </h4>
+        <a href="#"><img src="css/images/coming-soon2.jpg" alt="" /></a>
+        <p>Walt Disney Animation Studios presents the musical &quot;The Princess and the Frog,&quot; an animated comedy set in the great city of New Orleans...</p>
+        <a href="#">Read more</a> </div>
+    </div>
+    <div class="cl">&nbsp;</div>
+  </div>
+  <div id="footer">
+    <p class="lf">Copyright &copy; 2010 <a href="#">SiteName</a> - All Rights Reserved</p>
+    <p class="rf">Design by <a href="http://chocotemplates.com/">ChocoTemplates.com</a></p>
+    <div style="clear:both;"></div>
+  </div>
+</div>
+<!-- END PAGE SOURCE -->
+</body>
+</html>

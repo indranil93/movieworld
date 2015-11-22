@@ -1,0 +1,5 @@
+<p>
+       {{for pic in piclist:}}
+       <img width="200px" src="{{=URL('download',args=pic[0].Picture)}}" />
+       {{pass}}
+    </p>

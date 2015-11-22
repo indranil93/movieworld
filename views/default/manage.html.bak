@@ -1,0 +1,33 @@
+{{extend 'layout.html'}}
+<body background="/test1/static/images/body_bg.gif">
+<h2>
+    Manage Info:
+</h2>
+<div class="list-group">
+    <div class="list-group-item">
+        <a href="{{=URL('addmovie')}}"><button type="button" class="btn btn-primary">Add Movie&nbsp;
+            <span class="glyphicon glyphicon-plus"></span>
+            </button></a>
+    </div>
+    <div class="list-group-item">
+        <a href="{{=URL('addperson')}}"><button type="button" class="btn btn-primary">Add Person&nbsp;
+            <span class="glyphicon glyphicon-plus"></span>
+            </button></a>
+    </div>
+    <div class="list-group-item">
+        <a href="{{=URL('editreview')}}"><button type="button" class="btn btn-primary">Manage Reviews&nbsp;
+            <span class="glyphicon glyphicon-pencil"></span>
+            </button></a>
+    </div>
+    <div class="list-group-item">
+        <a href="{{=URL('editmovie')}}"><button type="button" class="btn btn-primary">Edit Existing Movie&nbsp;
+            <span class="glyphicon glyphicon-pencil"></span>
+            </button></a>
+    </div>
+    <div class="list-group-item">
+        <a href="{{=URL('editperson')}}"><button type="button" class="btn btn-primary">Edit Person Data&nbsp;
+            <span class="glyphicon glyphicon-pencil"></span>
+            </button></a>
+    </div>
+</div>
+</body>

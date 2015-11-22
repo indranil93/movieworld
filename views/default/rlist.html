@@ -1,0 +1,14 @@
+{{extend 'layout.html'}}
+
+<h2>Previous Reviews</h2>
+<table class="table">
+    {{for row in rows:}}
+    <tr>
+        <td><h4><a href="{{=URL('viewreview',args=row.id)}}">{{=row.title}}</a></h4></td>
+        <td>{{=row.created_on}}</td>
+    </tr>
+    <tr>
+        <td>{{=row.body}}</td>
+    </tr>
+    {{pass}}
+</table>

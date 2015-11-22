@@ -1,0 +1,19 @@
+{{extend 'layout.html'}}
+<div class="panel panel-primary">
+    <div class="panel-heading"><strong>Friends</strong>
+    </div>
+     <ul class="list-group">
+    <div class="panel-body">
+{{for row in userlist:}}
+        {{if row.id != auth.user.id:}}
+            {{n=row.first_name+" "+row.last_name}}
+            {{if n in friendlist:}}
+                <li class="list-group-item"><a href="{{=URL('viewfriendprofile',args=row.id)}}">{{=n}}</a></li>
+            {{else:}}
+                <li class="list-group-item"><a href="{{=URL('viewotherprofile',args=row.id,vars={'input_value':1})}}">{{=n}}</a></li>
+            {{pass}}
+        {{pass}}
+{{pass}}
+    </div>
+    </ul>
+    </div>

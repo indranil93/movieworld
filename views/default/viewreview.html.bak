@@ -1,0 +1,8 @@
+{{extend 'layout.html'}}
+
+<h2>{{=rev.title}}</h2>
+
+<h4>Posted on {{=rev.created_on}} by {{=rev.created_by}} </h4>
+<p>
+    {{=XML(rev.body,sanitize=True)}}
+</p>

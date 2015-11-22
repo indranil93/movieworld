@@ -1,0 +1,25 @@
+{{extend 'layout.html'}}
+<table>
+    <tr>
+        <td rowspan="2">
+            <div>
+               <img height="317" width="214" src="/test1/static/images/movie1.png"/>
+            </div>
+        </td>
+        <td>
+            <div style="margin:2%">
+                <h1>{{=title}}</h1>
+                <p>
+                    {{=des}}</p>
+                <p>
+                    <b>Actors:</b> {{=actors}}
+                </p>
+                <p>
+                    <b>Director:</b> {{=direc}}
+                </p>
+                    <b>Writers:</b> {{=writ}}
+            </div>
+        </td>
+    </tr>
+</table>
+<label><a href="{{=URL('create',vars={'name':title})}}">Rate this Movie</a></label>

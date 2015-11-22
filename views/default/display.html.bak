@@ -1,0 +1,5 @@
+{{extend 'layout.html'}}
+<html>
+    <h1>{{=header}}</h1>
+    <p style="color:blue">{{}}</p>
+</html>

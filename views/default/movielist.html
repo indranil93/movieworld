@@ -1,0 +1,22 @@
+{{extend 'layout.html'}}
+<body background="/test1/static/images/body_bg.gif">
+<div class="panel panel-primary">
+    {{if int(a)==1:}}
+        {{heading='ALL MOVIES'}}
+    {{elif int(a)==2:}}
+        {{heading='LATEST TRAILERS'}}
+    {{else:}}
+        {{heading='TOP RATED'}}
+    {{pass}}
+        <div class="panel-heading"><strong>{{=heading}}:</strong>
+    </div>
+    <ul class="list-group">
+     <div class="panel-body">
+         {{for row in rows:}}
+         <li class="list-group-item"><h4><a href="{{=URL('viewmovie',args=row.id)}}">{{=row.Title}}</a></h4>{{=row.Genre}}<p>
+             {{=row.Description}}</p></li>
+         {{pass}}
+        </div>
+    </ul>
+</div>
+</body>

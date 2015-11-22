@@ -1,0 +1,14 @@
+{{extend 'layout.html'}}
+<body background="/test1/static/images/body_bg.gif">
+<div class="panel panel-primary">
+    <div class="panel-heading"><strong>Genres:</strong>
+    </div>
+     <ul class="list-group">
+    <div class="panel-body">
+{{for row in grows:}}
+        <li class="list-group-item"><a href="{{=URL('mviebyg',args=1,vars={'gname':row.Genre})}}">{{=row.Genre}}</a></li>
+{{pass}}
+    </div>
+    </ul>
+    </div>
+</body>

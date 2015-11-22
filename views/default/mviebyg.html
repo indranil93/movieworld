@@ -1,0 +1,14 @@
+{{extend 'layout.html'}}
+<body background="/test1/static/images/body_bg.gif">
+<div class="panel panel-primary" height="100%">
+    <div class="panel-heading"><strong>{{=g}}</strong>
+    </div>
+    <ul class="list-group">
+    <div class="panel-body">
+    {{for row in genrows:}}
+            <li class="list-group-item"><span class="badge">Rating:{{=mv_rat[row.Title]}}</span><a href="{{=URL('viewmovie',args=row.id)}}">{{=row.Title}}</a></li>
+    {{pass}}
+        </div>
+</ul>
+</div>
+</body>
